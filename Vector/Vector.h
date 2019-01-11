@@ -145,7 +145,7 @@ Vector <T> & Vector <T> :: operator = (const Vector <T> & rhs)
           throw (const char *)
 {
    // we can only copy Vectors of equal size. Vectors are not this way!
-   if (rhs.capacity != capacity())
+   if (rhs.capacity() != capacity())
    {
       throw "ERROR: Unable to copy Vectors of different sizes";
    }
@@ -229,7 +229,7 @@ Vector <T> :: Vector(int numCapacity) throw (const char *)
 }
 
 template <class T>
-void push_back(const T t) 
+void Vector<T> :: push_back(const T t) 
 {
 
    //if ()
