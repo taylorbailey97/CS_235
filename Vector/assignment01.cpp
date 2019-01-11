@@ -370,55 +370,55 @@ void testCopy()
  *    4. Iterate through the Vector with a constant iterator
  *    5. Iterate through the Vector backwards with a constant iterator
  *********************************************************/
-void testExtra()
-{
-#ifdef TEST5
-   try
-   {
-      // create a list
-      cout << "Create a Vector of int with the default constructor.\n";
-      Vector <int> v1;
-      Vector <int> :: iterator it;
-      Vector <int> :: const_iterator  cit;
-   
-      // fill the Vector with numbers
-      cout << "\tEnter four integers\n";
-      for (int i = 0; i < 4; i++)
-      {
-         int number;
-         cout << "\t> ";
-         cin  >> number;
-         v1.push_back(number);
-      }  
-
-      // backwards non-constant iterator
-      cout << "Move through the Vector backwards "
-           << "using a non-constant iterator\n";
-      it = v1.begin();
-      for (int i = 0; i < 3; i++, ++it)
-         ;
-      for (int i = 0; i < 4; i++, --it)
-         cout << "\t" << *it << endl;
-
-      // copy the Vector to a constant Vector
-      const Vector <int> v2 = v1;
-   
-      // forwards constant iterator
-      cout << "Move through the Vector forwards with a constant iterator\n";
-      for (cit = v2.cbegin(); cit != v2.cend(); ++cit)
-         cout << "\t" << *cit << endl;
-
-      // backwards constant iterator
-      cout << "Move through the Vector backwards with a constant iterator\n";
-      cit = v1.cbegin();
-      for (int i = 0; i < 3; i++, ++cit)
-         ;
-      for (int i = 0; i < 4; i++, --cit)
-         cout << "\t" << *cit << endl;
-   }
-   catch (const char * sError)
-   {
-      cout << sError << endl;
-   }
-#endif // TEST5
-}
+//void testExtra()
+//{
+//#ifdef TEST5
+//   try
+//   {
+//      // create a list
+//      cout << "Create a Vector of int with the default constructor.\n";
+//      Vector <int> v1;
+//      Vector <int> :: iterator it;
+//      Vector <int> :: const_iterator  cit;
+//   
+//      // fill the Vector with numbers
+//      cout << "\tEnter four integers\n";
+//      for (int i = 0; i < 4; i++)
+//      {
+//         int number;
+//         cout << "\t> ";
+//         cin  >> number;
+//         v1.push_back(number);
+//      }  
+//
+//      // backwards non-constant iterator
+//      cout << "Move through the Vector backwards "
+//           << "using a non-constant iterator\n";
+//      it = v1.begin();
+//      for (int i = 0; i < 3; i++, ++it)
+//         ;
+//      for (int i = 0; i < 4; i++, --it)
+//         cout << "\t" << *it << endl;
+//
+//      // copy the Vector to a constant Vector
+//      const Vector <int> v2 = v1;
+//   
+//      // forwards constant iterator
+//      cout << "Move through the Vector forwards with a constant iterator\n";
+//      for (cit = v2.cbegin(); cit != v2.cend(); ++cit)
+//         cout << "\t" << *cit << endl;
+//
+//      // backwards constant iterator
+//      cout << "Move through the Vector backwards with a constant iterator\n";
+//      cit = v1.cbegin();
+//      for (int i = 0; i < 3; i++, ++cit)
+//         ;
+//      for (int i = 0; i < 4; i++, --cit)
+//         cout << "\t" << *cit << endl;
+//   }
+//   catch (const char * sError)
+//   {
+//      cout << sError << endl;
+//   }
+//#endif // TEST5
+//}

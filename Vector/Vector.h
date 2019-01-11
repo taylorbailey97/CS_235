@@ -38,7 +38,8 @@ class Vector
 {
 public:
    // constructors and destructors
-   Vector(int num)                  throw (const char *);
+   Vector() { numCapacity = 0; numElements = 0; data = NULL; } 
+   Vector(int numElements)                  throw (const char *);
    Vector(const Vector & rhs)        throw (const char *);
   ~Vector()                         { delete [] data;   }
    Vector & operator = (const Vector & rhs) throw (const char *);
@@ -46,11 +47,11 @@ public:
    // standard container interfaces
    // Vector treats size and max_size the same
    
-   int  size()     const { return num;                 }
-   int  max_size() const { return num;                 }
+   int  size()     const { return numElements;                 }
+   int  capacity() const { return numCapacity;                 }
    
    // Vector-specific interfaces
-   // what would happen if I passed -1 or something greater than num?
+   // what would happen if I passed -1 or something greater than numElements?
    T & operator [] (int index)       throw (const char *)
    {
       return data[index];
@@ -67,15 +68,16 @@ public:
 
    // a debug utility to display the Vector
    // this gets compiled to nothing if NDEBUG is defined
-   Vector & assign(const Vector <T> rhs) const;
    void push_back(const T t);
    void display() const; 
-   
+   bool empty() const;
+   void clear();
    
 private:
    T * data;              // dynamically allocated Vector of T
-   int num; 
+   int numElements; 
    int numCapacity;       // both the capacity and the number of elements
+   void resize(const int numCapacity);
 };
 
 /**************************************************
@@ -132,7 +134,7 @@ private:
 template <class T>
 typename Vector <T> :: iterator Vector <T> :: end ()
 {
-   return iterator (data + num);
+   return iterator (data + numElements);
 }
 
 /*******************************************
@@ -143,15 +145,16 @@ Vector <T> & Vector <T> :: operator = (const Vector <T> & rhs)
           throw (const char *)
 {
    // we can only copy Vectors of equal size. Vectors are not this way!
-   if (rhs.size() != size())
+   if (rhs.capacity != capacity())
    {
       throw "ERROR: Unable to copy Vectors of different sizes";
    }
 
-   assert(num == rhs.num);
-   for (int i = 0; i < num; i++)
-      data[i] = rhs.data[i];
+   assert(numCapacity == rhs.numCapacity);
 
+   for (int i = 0; i < numElements; i++)
+      data[i] = rhs.data[i];
+   numElements = rhs.numElements;
    return *this;
 }
 
@@ -161,12 +164,13 @@ Vector <T> & Vector <T> :: operator = (const Vector <T> & rhs)
 template <class T>
 Vector <T> :: Vector(const Vector <T> & rhs) throw (const char *)
 {
-   assert(rhs.num >= 0);
+   assert(rhs.numCapacity >= 0);
       
    // do nothing if there is nothing to do
-   if (rhs.num == 0)
+   if (rhs.numCapacity == 0 && rhs.numElements == 0)
    {
-      num = 0;
+      numElements = 0;
+      numCapacity = 0;
       data = NULL;
       return;
    }
@@ -174,7 +178,7 @@ Vector <T> :: Vector(const Vector <T> & rhs) throw (const char *)
    // attempt to allocate
    try
    {
-      data = new T[rhs.num];
+      data = new T[rhs.numCapacity];
    }
    catch (std::bad_alloc)
    {
@@ -182,10 +186,11 @@ Vector <T> :: Vector(const Vector <T> & rhs) throw (const char *)
    }
    
    // copy over the capacity
-   num = rhs.num;
+   numCapacity = rhs.numCapacity;
+   numElements = rhs.numElements;
 
    // copy the items over one at a time using the assignment operator
-   for (int i = 0; i < num; i++)
+   for (int i = 0; i < numElements; i++)
       data[i] = rhs.data[i];
 }
 
@@ -194,15 +199,16 @@ Vector <T> :: Vector(const Vector <T> & rhs) throw (const char *)
  * Preallocate the Vector to "capacity"
  **********************************************/
 template <class T>
-Vector <T> :: Vector(int num) throw (const char *)
+Vector <T> :: Vector(int numCapacity) throw (const char *)
 {
-   assert(num >= 0);
+   assert(numCapacity >= 0);
    
    // do nothing if there is nothing to do.
    // since we can't grow an Vector, this is kinda pointless
-   if (num == 0)
+   if (numCapacity == 0)
    {
-      this->num = 0;
+      this->numCapacity = 0;
+      this->numElements = 0;
       this->data = NULL;
       return;
    }
@@ -210,7 +216,7 @@ Vector <T> :: Vector(int num) throw (const char *)
    // attempt to allocate
    try
    {
-      data = new T[num];
+      data = new T[numCapacity];
    }
    catch (std::bad_alloc)
    {
@@ -219,42 +225,42 @@ Vector <T> :: Vector(int num) throw (const char *)
 
       
    // copy over the stuff
-   this->num = num;
+   this->numCapacity = numCapacity;
 }
 
 template <class T>
-Vector <T> & Vector <T> :: assign(const Vector rhs) const
-{
-   if (rhs.size() != size())
-   {
-      throw "ERROR: Unable to copy Vectors of different sizes";
-   }
-   this.numCapacity = rhs.numCapacity;
-   assert(num == rhs.num);
-   for (int i = 0; i < num; i++)
-      data[i] = rhs.data[i];
-
-   return *this;
-}
-
 void push_back(const T t) 
 {
 
-   if (this->size() == )
-   {
-      throw "ERROR: Unable allocate a new buffer for vector";
-   }
+   //if ()
+   //{
+   //   throw "ERROR: Unable allocate a new buffer for vector";
+   //}
 
    if (this.numCapacity == 0) 
    {
-      this.numCapacity = 1;
+      this->resize(1);
    }
-   if (this.numCapacity > this.num) 
+   if (this.numCapacity == this.numElements) 
    {
-      this.numCapacity = this.numCapacity * 2;
+      this->resize(this.numCapacity * 2);
    }
-   
+   this.data[++this.numElements] = t;
+}
 
+template <class T>
+void Vector<T> ::  resize(int numCapacity) 
+{
+   this.numCapacity = numCapacity;
+   
+   if (numElements > 1)
+   {
+      T *tempData = new T[this.numCapacity];
+      for (int i = 0; i < numElements; i++)
+         tempData[i] = this.data[i];
+      this.data = tempData;
+      delete [] tempData;
+   }
 }
 
 /********************************************
@@ -266,13 +272,31 @@ void Vector <T> :: display() const
 {
 #ifndef NDEBUG
    std::cerr << "Vector<T>::display()\n";
-   std::cerr << "\tnum = " << num << "\n";
-   for (int i = 0; i < num; i++)
+   std::cerr << "\tnum = " << numElements << "\n";
+   for (int i = 0; i < numElements; i++)
       std::cerr << "\tdata[" << i << "] = " << data[i] << "\n";
 #endif // NDEBUG
+}
+
+template <class T>
+bool Vector<T> :: empty() const 
+{
+   if (numElements == 0)
+      return true;
+   else 
+      return false;
+}
+
+template <class T>
+void Vector<T> :: clear()
+{
+   this.numElements = 0;
+   this.numCapacity = 0;
+   data = new T[this.numCapacity];
 }
 
 }; // namespace custom
 
 #endif // Vector_H
+
 
