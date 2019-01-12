@@ -28,7 +28,7 @@ void testSimple();
 void testFill();
 void testIterate();
 void testCopy();
-void testExtra();
+//void testExtra();
 
 // To get your program to compile, you might need to comment out a few
 // of these. The idea is to help you avoid too many compile errors at once.
@@ -77,7 +77,7 @@ int main()
          cout << "Test 4 complete\n";
          break;
       case 'a':
-         testExtra();
+         //testExtra();
          cout << "Extra Credit complete\n";
          break;
       default:

@@ -237,28 +237,28 @@ void Vector<T> :: push_back(const T t)
    //   throw "ERROR: Unable allocate a new buffer for vector";
    //}
 
-   if (this.numCapacity == 0) 
+   if (this->numCapacity == 0) 
    {
       this->resize(1);
    }
-   if (this.numCapacity == this.numElements) 
+   if (this->numCapacity == this->numElements) 
    {
-      this->resize(this.numCapacity * 2);
+      this->resize(this->numCapacity * 2);
    }
-   this.data[++this.numElements] = t;
+   this->data[++this->numElements] = t;
 }
 
 template <class T>
 void Vector<T> ::  resize(int numCapacity) 
 {
-   this.numCapacity = numCapacity;
+   this->numCapacity = numCapacity;
    
    if (numElements > 1)
    {
-      T *tempData = new T[this.numCapacity];
+      T *tempData = new T[this->numCapacity];
       for (int i = 0; i < numElements; i++)
-         tempData[i] = this.data[i];
-      this.data = tempData;
+         tempData[i] = this->data[i];
+      this->data = tempData;
       delete [] tempData;
    }
 }
@@ -290,9 +290,9 @@ bool Vector<T> :: empty() const
 template <class T>
 void Vector<T> :: clear()
 {
-   this.numElements = 0;
-   this.numCapacity = 0;
-   data = new T[this.numCapacity];
+   this->numElements = 0;
+   this->numCapacity = 0;
+   data = new T[this->numCapacity];
 }
 
 }; // namespace custom
