@@ -97,14 +97,14 @@ void testSimple()
    try
    {
       // Test 1.a: bool Vector with default constructor
-      cout << "Create a bool Vector using default constructor\n";
+      cout << "Create a bool vector using default constructor\n";
       Vector <bool> v1;
       cout << "\tSize:     " << v1.size()                   << endl;
       cout << "\tCapacity: " << v1.capacity()               << endl;
       cout << "\tEmpty?    " << (v1.empty() ? "Yes" : "No") << endl;
 
       // Test 1.b: double Vector with non-default constructor
-      cout << "Create a double Vector using the non-default constructor\n";
+      cout << "Create a double vector using the non-default constructor\n";
       Vector <double> v2(10 /*size*/);
       cout << "\tSize:     " << v2.size()                   << endl;
       cout << "\tCapacity: " << v2.capacity()               << endl;
@@ -112,7 +112,7 @@ void testSimple()
 
       // Test 1.c: copy the Vector using the copy constructor
       {
-         cout << "Create a double Vector using the copy constructor\n";
+         cout << "Create a double vector using the copy constructor\n";
          Vector <double> v3(v2);
          cout << "\tSize:     " << v3.size()                   << endl;
          cout << "\tCapacity: " << v3.capacity()               << endl;
@@ -120,7 +120,7 @@ void testSimple()
       }
 
       // Test 1.d: copy the Vector using the assignment operator
-      cout << "Copy a double Vector using the assignment operator\n";
+      cout << "Copy a double vector using the assignment operator\n";
       Vector <double> v4(2);
       v4 = v2;
       cout << "\tSize:     " << v4.size()                   << endl;
@@ -194,13 +194,13 @@ void testFill()
          cout << "\tCapacity: " << v2.capacity()               << endl;
          cout << "\tEmpty?    " << (v2.empty() ? "Yes" : "No") << endl;
       }
-      cout << "First Vector deleted\n";
+      cout << "First vector deleted\n";
 
       // Test2: character Vector with non-default constructor
       {
          Vector <char> v1;
 
-         cout << "Insert user-provided characters in the Vector\n";
+         cout << "Insert user-provided characters in the vector\n";
          cout << "Enter characters, type 'q' when done\n";
          char letter;
          do
@@ -223,7 +223,7 @@ void testFill()
          cout << "\tCapacity: " << v1.capacity()               << endl;
          cout << "\tEmpty?    " << (v1.empty() ? "Yes" : "No") << endl;
       }
-      cout << "\tSecond Vector deleted\n";
+      cout << "\tSecond vector deleted\n";
    }
    catch (const char * sError)
    {

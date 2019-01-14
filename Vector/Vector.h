@@ -147,11 +147,12 @@ Vector <T> & Vector <T> :: operator = (const Vector <T> & rhs)
    // we can only copy Vectors of equal size. Vectors are not this way!
    if (rhs.capacity() != capacity())
    {
-      throw "ERROR: Unable to copy Vectors of different sizes";
+      this->numCapacity = rhs.capacity();
+      resize(this->numCapacity);
    }
 
    assert(numCapacity == rhs.numCapacity);
-
+   this->numElements = rhs.size();
    for (int i = 0; i < numElements; i++)
       data[i] = rhs.data[i];
    numElements = rhs.numElements;
@@ -165,12 +166,13 @@ template <class T>
 Vector <T> :: Vector(const Vector <T> & rhs) throw (const char *)
 {
    assert(rhs.numCapacity >= 0);
+   assert(rhs.numElements >= 0);
       
    // do nothing if there is nothing to do
-   if (rhs.numCapacity == 0 && rhs.numElements == 0)
+   if (rhs.numCapacity == 0 && rhs.numElements)
    {
-      numElements = 0;
-      numCapacity = 0;
+      this->numElements = 0;
+      this->numCapacity = 0;
       data = NULL;
       return;
    }
@@ -186,12 +188,14 @@ Vector <T> :: Vector(const Vector <T> & rhs) throw (const char *)
    }
    
    // copy over the capacity
-   numCapacity = rhs.numCapacity;
+   this->numCapacity = rhs.numCapacity;
    numElements = rhs.numElements;
 
    // copy the items over one at a time using the assignment operator
    for (int i = 0; i < numElements; i++)
       data[i] = rhs.data[i];
+   for (int i = numElements; i < numCapacity; i++) 
+         data[i] = T();
 }
 
 /**********************************************
@@ -226,6 +230,7 @@ Vector <T> :: Vector(int numCapacity) throw (const char *)
       
    // copy over the stuff
    this->numCapacity = numCapacity;
+   this->numElements = numCapacity;
 }
 
 template <class T>
@@ -241,26 +246,33 @@ void Vector<T> :: push_back(const T t)
    {
       this->resize(1);
    }
-   if (this->numCapacity == this->numElements) 
+   else if (this->numCapacity == this->numElements) 
    {
       this->resize(this->numCapacity * 2);
    }
-   this->data[++this->numElements] = t;
+   this->data[this->numElements++] = t;
 }
 
 template <class T>
 void Vector<T> ::  resize(int numCapacity) 
 {
-   this->numCapacity = numCapacity;
-   
-   if (numElements > 1)
+   try
    {
-      T *tempData = new T[this->numCapacity];
+      this->numCapacity = numCapacity;
+      T *tempData = new T[numCapacity];
       for (int i = 0; i < numElements; i++)
-         tempData[i] = this->data[i];
-      this->data = tempData;
-      delete [] tempData;
+         tempData[i] = data[i];
+      for (int i = numElements; i < numCapacity; i++) 
+         tempData[i] = T();
+      delete [] data;
+      data = tempData;
+   } 
+   catch (std::bad_alloc)
+   {
+      throw "ERROR: Bad memory allocation";
    }
+
+
 }
 
 /********************************************
@@ -281,18 +293,13 @@ void Vector <T> :: display() const
 template <class T>
 bool Vector<T> :: empty() const 
 {
-   if (numElements == 0)
-      return true;
-   else 
-      return false;
+   return (numElements == 0);
 }
 
 template <class T>
 void Vector<T> :: clear()
 {
    this->numElements = 0;
-   this->numCapacity = 0;
-   data = new T[this->numCapacity];
 }
 
 }; // namespace custom
