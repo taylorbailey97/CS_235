@@ -26,6 +26,12 @@
 #define Debug(statement) statement
 #endif // !NDEBUG
 
+#ifdef UNIT_TESTING
+int main(int argc, const char* argv[]);
+#endif
+
+
+
 namespace custom
 {
 
@@ -50,6 +56,10 @@ public:
    int  size()     const { return numElements;                 }
    int  capacity() const { return numCapacity;                 }
    
+   // friend declaration to be placed in the public section of your class definition
+   #ifdef UNIT_TESTING
+   friend int ::main(int argc, const char* argv[]);
+   #endif
 
    // a debug utility to display the Stack
    // this gets compiled to nothing if NDEBUG is defined
@@ -62,7 +72,7 @@ public:
 
 
    //friend int main(int argc, const char* argv[]);
-
+   private:
    T * buffer;              // dynamically allocated Stack of T
    int numElements; 
    int numCapacity;       // both the capacity and the number of elements
