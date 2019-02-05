@@ -53,8 +53,8 @@ public:
    void clear();
    bool empty() { return !size(); }
    
-   void push_back(const T & t);
-   void push_front(const T & t);
+   void push_back(const T t);
+   void push_front(const T t);
    void pop_back();
    void pop_front();
    
@@ -69,9 +69,9 @@ public:
    int numCapacity;
    void resize(int numCapacity);
    int capacity() {return numCapacity;}
-   int iNormalize(int index);
-   int iBackNormalize() { return iNormalize(iBack); }
-   int iFrontNormalize() { return iNormalize(iFront); }
+   int iNormalize(int index) const;
+   int iBackNormalize() const { return iNormalize(iBack); }
+   int iFrontNormalize() const { return iNormalize(iFront); }
 
 };
 template <class T>
@@ -81,7 +81,8 @@ deque<T> :: deque(int numCapacity) throw (const char *)
    {
       this->iFront = 0;
       this->iBack = -1;
-      this->resize(numCapacity);
+      this->buffer = new T[numCapacity];
+      this->numCapacity = numCapacity;
    }
    else
    {
@@ -92,7 +93,16 @@ deque<T> :: deque(int numCapacity) throw (const char *)
 template <class T>
 deque<T> :: deque(const deque & rhs) throw (const char *)
 {
-
+   this->numCapacity = rhs.size();
+   this->iFront = 0;
+   this->iBack = (rhs.size() - 1);
+   T * temp = new T[this->numCapacity];
+   for (int i = 0; i <= numCapacity; i++)
+   {
+      temp[i] = rhs.buffer[rhs.iFrontNormalize() + i];
+   }
+   delete [] buffer;
+   this->buffer = temp;
 }
 
 template <class T>
@@ -103,7 +113,7 @@ void deque<T> :: clear()
 }
 
 template <class T>
-void deque<T> :: push_back(const T & t)
+void deque<T> :: push_back(const T t)
 {
    if (numCapacity <= 0)
    {
@@ -118,7 +128,7 @@ void deque<T> :: push_back(const T & t)
 }
 
 template <class T>
-void deque<T> :: push_front(const T & t)
+void deque<T> :: push_front(const T t)
 {
    if (numCapacity <= 0)
    {
@@ -129,19 +139,30 @@ void deque<T> :: push_front(const T & t)
       resize(numCapacity * 2);
    }
    iFront--;
+   // std::cout << "iFront: " << iFrontNormalize() << std::endl;
+   // std::cout << "Value passed: " << t << std::endl;
    buffer[iFrontNormalize()] = t;
 }
 
 template <class T>
 void deque<T> :: pop_back()
 {
-
+   if (empty())
+   {
+      throw "Error: Can not pop an empty deque.";
+   }
+   iBack--;
 }
 
 template <class T>
 void deque<T> :: pop_front()
 {
+   if (empty())
+   {
+      throw "Error: Can not pop an empty deque.";
+   }
 
+   iFront++;
 }
 
 template <class T>
@@ -180,7 +201,7 @@ void deque<T> :: resize(int numCapacity)
 }
 
 template <class T>
-int deque<T> :: iNormalize(int index)
+int deque<T> :: iNormalize(int index) const
 {
    if (numCapacity > 0)
    {
@@ -194,7 +215,7 @@ T& deque<T> :: front()
 {
    if (empty())
    {
-      throw "The deque is empty";
+      throw "Error: deque is empty.";
    }
    return buffer[iFrontNormalize()];
 }
@@ -203,7 +224,7 @@ T& deque<T> :: back()
 {
    if (empty())
    {
-      throw "The deque is empty";
+      throw "Error: deque is empty.";
    }
    return buffer[iBackNormalize()];
 }
@@ -211,3 +232,4 @@ T& deque<T> :: back()
 
 }
 #endif
+
