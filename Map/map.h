@@ -9,18 +9,12 @@
  *    Caleb and Taylor
  **/
 
-#ifndef LIST_H
-#define LIST_H
+#ifndef MAP_H
+#define MAP_H
 
-#include <cassert>  // because I am paranoid
+//#include "pair.h"
 #include "bst.h"
 
-// a little helper macro to write debug code
-#ifdef NDEBUG
-#define Debug(statement)
-#else
-#define Debug(statement) statement
-#endif // !NDEBUG
 
 // Allowing the set-tests file to access private variables
 #ifdef UNIT_TESTING
@@ -30,75 +24,132 @@ int main(int argc, const char* argv[]);
 namespace custom 
 {
 
-
-template <class T1, class T2>
+template <class K, class V>
 class map
 {
    public:
-   class iterator;
-   map() : bst(NULL) {}
+      class pair;
+      class iterator;
 
-   map & operator =(const map rhs) {}
-   
-   int size() {}
-   
-   bool empty() {}
+      map();
+      map(const map<K, V>& map);
+      ~map();
 
-   void clear() {}
-
-   T2 access(T1 t1) {}
-
-   iterator find(T1 t1) {}
-
-   void insert(T1 t1, T2 t2) {}
-
-   iterator begin() {}
-
-   iterator end() {}
-
-   BST bst;
-};
+      map<K, V> operator = (const map<K, V>& rhs);
+      V& operator [] (const K& key);
  
-/**************************************************
- * Set ITERATOR
- * An iterator through Set
- *************************************************/
-template <class T1, class T2>
-class map <T1, T2> :: iterator
+      int size();
+      bool empty();
+      void clear();
+
+      void insert(const K& key, const V& value);
+         
+      iterator find(const K& key);
+      iterator begin();
+      iterator end();
+
+      BST<pair> bst;
+};
+
+
+/**********************************************
+ * PAIR
+ * This class couples together a pair of values, which may be of
+ * different types (K and V). The individual values can be
+ * accessed through its public members first and second.
+ *
+ * Additionally, when compairing two pairs, only T1 is compared. This
+ * is a key in a name-value pair.
+ ***********************************************/
+template <class K, class V>
+class map<K, V> :: pair
 {
 public:
-   // constructors, destructors, and assignment operator
-   iterator()      : ptr(NULL)      {              }
-   iterator(const BST :: iterator rhs) : ptr(rhs)         {              }
-   iterator(const iterator & rhs) { *this = rhs; }
-   iterator & operator = (const iterator & rhs)
+   // constructors
+   pair()                                    : first(     ), second(      ) {}
+   pair(const K & first, const V & second) : first(first), second(second) {}
+   pair(const pair & rhs)   : first(rhs.first), second(rhs.second) {}
+
+   // copy the values
+   pair & operator = (const pair & rhs)
    {
+      first  = rhs.first;
+      second = rhs.second;
       return *this;
    }
- 
-   // equals, not equals operator
-   bool operator != (const iterator & rhs) const { return rhs.ptr != this->ptr; }
-   bool operator == (const iterator & rhs) const { return rhs.ptr == this->ptr; }
- 
-   // dereference operator
-    node * & operator * ()       {}
-   //const node * & operator * () const { return ptr; }
- 
-   // prefix increment
-   iterator & operator ++ ()     {}
- 
-   // postfix increment
-   iterator operator ++ (int postfix)  {}
- 
-   iterator & operator -- ()    {}
- 
-   // postfix increment
-   iterator operator -- (int postfix)   {}
-
    
-   iterator :: BST it;
+   // compare Pairs. Only first will be compared.
+   bool operator >  (const pair & rhs) const { return first >  rhs.first; }
+   bool operator >= (const pair & rhs) const { return first >= rhs.first; }
+   bool operator <  (const pair & rhs) const { return first <  rhs.first; }
+   bool operator <= (const pair & rhs) const { return first <= rhs.first; }
+   bool operator == (const pair & rhs) const { return first == rhs.first; }
+   bool operator != (const pair & rhs) const { return first != rhs.first; }
+   
+   // these are public. We cannot validate because we know nothing about T
+   K first;
+   V second;
 };
 
+// /*****************************************************
+//  * PAIR INSERTION
+//  * Display a pair for debug purposes
+//  ****************************************************/
+// template <class K, class V>
+// inline std::ostream & operator << (std::ostream & out,
+//                                    const pair & rhs)
+// {
+//    out << '(' << rhs.first << ", " << rhs.second << ')';
+//    return out;
+// }
+
+// /*****************************************************
+//  * PAIR EXTRACTION
+//  * input a pair
+//  ****************************************************/
+// template <class K, class V>
+// inline std::istream & operator >> (std::istream & in,
+//                                    pair & rhs)
+// {
+//    in >> rhs.first >> rhs.second;
+//    return in;
+// }
+
+
+
+
+
+
+/************************************************************************
+* MAPITERATOR: Class used as an iterator for the Map
+************************************************************************/
+template <class K, class V>
+class map<K, V> :: iterator
+{
+   public:
+   iterator() { this->it = NULL; }
+   iterator(const typename BST<pair>::iterator& rhs) {
+      this->it = rhs;
+   }
+   iterator(const iterator& rhs) {
+      this->it = rhs.it;
+   }
+
+   iterator& operator = (const iterator& rhs);
+   bool operator == (const iterator& rhs) const;
+   bool operator != (const iterator& rhs) const;
+   pair& operator * ();
+   iterator operator ++ ();
+   iterator operator ++ (int postfix);
+   iterator operator -- ();
+   iterator operator -- (int postfix);
+
+   typename BST<pair>::iterator it;
+};
+
+
 }
+
+#include "map.cpp"
 
 #endif

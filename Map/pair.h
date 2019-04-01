@@ -11,6 +11,7 @@
 #define PAIR_H
 
 #include <iostream>  // for ISTREAM and OSTREAM
+#include "map.h"
 
 namespace custom
 {

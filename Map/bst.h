@@ -9,8 +9,8 @@
  *    Caleb and Taylor
  **/
 
-#ifndef BNode_H
-#define BNode_H
+#ifndef BST_H
+#define BST_H
 
 #include <iostream>
 #include <cassert>  // because I am paranoid
@@ -27,7 +27,6 @@
 int main(int argc, const char* argv[]);
 #endif
 
-using namespace std;
 namespace custom 
 {
 
@@ -117,6 +116,7 @@ class BST
    ////////////////////////////////////
    void clear() {
       clearB(root);
+      this->numElements = 0;
    }
    
    void clearB(BNode * node) {
@@ -312,7 +312,7 @@ class BST<T> :: BNode
    BNode * pRight;
    BNode * pParent;
 
-   BNode() : pLeft(NULL), pRight(NULL), pParent(NULL),  data(4) {} 
+   BNode() : pLeft(NULL), pRight(NULL), pParent(NULL) {} 
    BNode(T t) : pLeft(NULL), pRight(NULL), pParent(NULL),  data(t) {} 
    
 };
@@ -436,6 +436,8 @@ class BST <T> :: iterator
    }
    BNode * ptr;
 };
+
+
 
 }
 #endif
