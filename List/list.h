@@ -48,11 +48,11 @@ class list
          return;
       }
       else {
-         this->pHead = rhs.pHead;
-         this->pTail = rhs.pTail;
+         // this->pHead->data = rhs.pHead->data;
          this->numElements = 0;
-         for(node * p = rhs.pHead; p; p = p->pNext) {
-            insert(iterator(p), p->data);
+         for(node * p = rhs.pTail; p; p = p->pPrev) {
+            iterator it = iterator(this->pHead);
+            this->insert(it, p->data);
          }
 
       }
@@ -67,19 +67,22 @@ class list
       }
    }
 
-   list operator =(const list & rhs) {
+   list & operator =(const list & rhs) {
+      //list newList;
       if (rhs.numElements < 1) {
          this->pHead = NULL;
          this->pTail = NULL;
          this->numElements = 0;
          return *this;
       }
-      this->numElements = 0;
-      for(node * p = rhs.pHead; p; p = p->pNext) {
-         push_back(p->data);
+      this->clear();
+      for(node * p = rhs.pTail; p; p = p->pPrev) {
+         iterator it = iterator(this->pHead);
+         this->insert(it, p->data);
       }
       return *this;
    }
+
    int size() { return numElements; }
    bool empty() { return !numElements; }
 
@@ -155,7 +158,7 @@ class list
       throw "Error: calling back on empty list.";
    }
 
-   iterator erase(iterator it) {
+   iterator erase(iterator & it) {
       if (it.ptr == NULL) {
          return it;
          //throw "Error: cannot erase null node";
@@ -177,7 +180,7 @@ class list
       return it.ptr = pHead;
    }
 
-   void insert(iterator it, T t) {
+   void insert(iterator & it, T t) {
    
       node * newNode = new node(t);
       //create a new node and assign the next node value to the passed pointer
@@ -189,21 +192,22 @@ class list
          pHead = newNode;
          pTail = pHead;
          numElements++;
+         return;
       }   
       //insert new node before current node
       if (it != NULL)
       {
-          newNode->pNext = it.ptr;
-          newNode->pPrev = it.ptr->pPrev;
-          it.ptr->pPrev = newNode;   
-          if (newNode->pPrev )
-          {
-              newNode->pPrev->pNext = newNode;
-          }
-          if (it.ptr == pHead) {
-             pHead = newNode;
-          }
-          this->numElements++;
+         newNode->pNext = it.ptr;
+         if (it.ptr->pPrev != NULL)
+         {
+            newNode->pPrev = it.ptr->pPrev;
+            newNode->pPrev->pNext = newNode;
+         }
+         it.ptr->pPrev = newNode;   
+         if (it.ptr == pHead) {
+            pHead = newNode;
+         }
+         this->numElements++;
       }   
    }
 

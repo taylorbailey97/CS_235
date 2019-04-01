@@ -143,52 +143,51 @@ int main(int argc, const char* argv[])
     //These two pointers are here to get rid of the chain of pointers that yout saw in the LinkedList tests.
     list<int>::node* toCopyCurrentNode = listToCopy.pHead;
     list<int>::node* copyCurrentNode = listCopy.pHead;
-    
-    
-    // assert(toCopyCurrentNode != copyCurrentNode);
-    // assert(toCopyCurrentNode->data == copyCurrentNode->data);
-    // assert(toCopyCurrentNode->pNext != copyCurrentNode->pNext);
-    // assert(toCopyCurrentNode->pPrev == NULL);
-    
-    toCopyCurrentNode = toCopyCurrentNode->pNext;
-    copyCurrentNode = copyCurrentNode->pNext;
-    
-    // assert(toCopyCurrentNode != copyCurrentNode);
-    // assert(toCopyCurrentNode->data == copyCurrentNode->data);
-    // assert(toCopyCurrentNode->pNext != copyCurrentNode->pNext);
-    // assert(toCopyCurrentNode->pPrev != copyCurrentNode->pPrev);
+
+    assert(toCopyCurrentNode != copyCurrentNode);
+    assert(toCopyCurrentNode->data == copyCurrentNode->data);
+    assert(toCopyCurrentNode->pNext != copyCurrentNode->pNext);
+    assert(toCopyCurrentNode->pPrev == NULL);
     
     toCopyCurrentNode = toCopyCurrentNode->pNext;
     copyCurrentNode = copyCurrentNode->pNext;
     
-    // assert(toCopyCurrentNode != copyCurrentNode);
-    // assert(toCopyCurrentNode->data == copyCurrentNode->data);
-    // assert(toCopyCurrentNode->pNext != copyCurrentNode->pNext);
-    // assert(toCopyCurrentNode->pPrev != copyCurrentNode->pPrev);
+    assert(toCopyCurrentNode != copyCurrentNode);
+    assert(toCopyCurrentNode->data == copyCurrentNode->data);
+    assert(toCopyCurrentNode->pNext != copyCurrentNode->pNext);
+    assert(toCopyCurrentNode->pPrev != copyCurrentNode->pPrev);
     
     toCopyCurrentNode = toCopyCurrentNode->pNext;
     copyCurrentNode = copyCurrentNode->pNext;
     
-    // assert(toCopyCurrentNode != copyCurrentNode);
-    // assert(toCopyCurrentNode->data == copyCurrentNode->data);
-    // assert(toCopyCurrentNode->pNext != copyCurrentNode->pNext);
-    // assert(toCopyCurrentNode->pPrev != copyCurrentNode->pPrev);
+    assert(toCopyCurrentNode != copyCurrentNode);
+    assert(toCopyCurrentNode->data == copyCurrentNode->data);
+    assert(toCopyCurrentNode->pNext != copyCurrentNode->pNext);
+    assert(toCopyCurrentNode->pPrev != copyCurrentNode->pPrev);
     
     toCopyCurrentNode = toCopyCurrentNode->pNext;
     copyCurrentNode = copyCurrentNode->pNext;
     
-    // assert(toCopyCurrentNode != copyCurrentNode);
-    // assert(toCopyCurrentNode->data == copyCurrentNode->data);
-    // assert(toCopyCurrentNode->pNext != copyCurrentNode->pNext);
-    // assert(toCopyCurrentNode->pPrev != copyCurrentNode->pPrev);
+    assert(toCopyCurrentNode != copyCurrentNode);
+    assert(toCopyCurrentNode->data == copyCurrentNode->data);
+    assert(toCopyCurrentNode->pNext != copyCurrentNode->pNext);
+    assert(toCopyCurrentNode->pPrev != copyCurrentNode->pPrev);
     
     toCopyCurrentNode = toCopyCurrentNode->pNext;
     copyCurrentNode = copyCurrentNode->pNext;
     
-    // assert(toCopyCurrentNode != copyCurrentNode);
-    // assert(toCopyCurrentNode->data == copyCurrentNode->data);
-    // assert(toCopyCurrentNode->pNext == NULL);
-    // assert(toCopyCurrentNode->pPrev != copyCurrentNode->pPrev);
+    assert(toCopyCurrentNode != copyCurrentNode);
+    assert(toCopyCurrentNode->data == copyCurrentNode->data);
+    assert(toCopyCurrentNode->pNext != copyCurrentNode->pNext);
+    assert(toCopyCurrentNode->pPrev != copyCurrentNode->pPrev);
+    
+    toCopyCurrentNode = toCopyCurrentNode->pNext;
+    copyCurrentNode = copyCurrentNode->pNext;
+    
+    assert(toCopyCurrentNode != copyCurrentNode);
+    assert(toCopyCurrentNode->data == copyCurrentNode->data);
+    assert(toCopyCurrentNode->pNext == NULL);
+    assert(toCopyCurrentNode->pPrev != copyCurrentNode->pPrev);
    
     cout<<"Passed List Copy Constructor Test"<<endl;
     
@@ -601,41 +600,41 @@ int main(int argc, const char* argv[])
     
     unit_testing_delete_call_counter = 0;
     assignedToList = pushBackTestingList;
-    // assert(assignedToList.numElements == 3);
-    // //making sure the pointers all got set correctly
-    // assert(assignedToList.pHead != NULL);
-    // assert(assignedToList.pTail != NULL);
-    // assert(assignedToList.pHead != assignedToList.pTail);
-    // assert(assignedToList.pHead != pushBackTestingList.pHead);
-    // assert(assignedToList.pHead->pNext != pushBackTestingList.pHead->pNext);
-    // assert(assignedToList.pTail != pushBackTestingList.pTail);
-    // //making sure the data didn't get messed up
-    // assert(assignedToList.pHead->data == 20);
-    // assert(assignedToList.pHead->pNext->data == 0);
-    // assert(assignedToList.pTail->data == 32);
-    // assert(unit_testing_delete_call_counter == 0);
+    assert(assignedToList.numElements == 3);
+    //making sure the pointers all got set correctly
+    assert(assignedToList.pHead != NULL);
+    assert(assignedToList.pTail != NULL);
+    assert(assignedToList.pHead != assignedToList.pTail);
+    assert(assignedToList.pHead != pushBackTestingList.pHead);
+    assert(assignedToList.pHead->pNext != pushBackTestingList.pHead->pNext);
+    assert(assignedToList.pTail != pushBackTestingList.pTail);
+    //making sure the data didn't get messed up
+    assert(assignedToList.pHead->data == 20);
+    assert(assignedToList.pHead->pNext->data == 0);
+    assert(assignedToList.pTail->data == 32);
+    assert(unit_testing_delete_call_counter == 0);
     
     //testing assigning to a non-empty list
     
-    // list<int>listToAssign;
-    // int simpleValue = 123;
-    // list<int>::node* simpleNode = new list<int>::node(simpleValue);
-    // listToAssign.numElements = 1;
-    // listToAssign.pHead = simpleNode;
-    // listToAssign.pTail = simpleNode;
+    list<int>listToAssign;
+    int simpleValue = 123;
+    list<int>::node* simpleNode = new list<int>::node(simpleValue);
+    listToAssign.numElements = 1;
+    listToAssign.pHead = simpleNode;
+    listToAssign.pTail = simpleNode;
     
-    // unit_testing_delete_call_counter = 0;
-    // //assignedToList is currently: 20<=>0<=>32
-    // assignedToList = listToAssign;
+    unit_testing_delete_call_counter = 0;
+    //assignedToList is currently: 20<=>0<=>32
+    assignedToList = listToAssign;
     //now assignedToList should be: 123
-    // assert(assignedToList.numElements == 1);
-    // //making sure the pointers all got set correctly
-    // assert(assignedToList.pHead != NULL);
-    // assert(assignedToList.pTail != NULL);
-    // assert(assignedToList.pHead == assignedToList.pTail);
-    // //making sure the data didn't get messed up
-    // assert(assignedToList.pHead->data == 123);
-    // assert(unit_testing_delete_call_counter == 3);
+    assert(assignedToList.numElements == 1);
+    //making sure the pointers all got set correctly
+    assert(assignedToList.pHead != NULL);
+    assert(assignedToList.pTail != NULL);
+    assert(assignedToList.pHead == assignedToList.pTail);
+    //making sure the data didn't get messed up
+    assert(assignedToList.pHead->data == 123);
+    assert(unit_testing_delete_call_counter == 3);
 
     cout<<"Passed Assignment Operator Tests"<<endl;
     
@@ -1098,16 +1097,16 @@ int main(int argc, const char* argv[])
     
     //testing inserting into a list with an invalid iterator (might be one from a different list, etc.)
     list<int>::iterator insertIterator;
-    //insertIterator.ptr = new list<int>::node(2);
+    insertIterator.ptr = new list<int>::node(2);
     
-    //insertList.insert(insertIterator, -7);
-    //assert(insertList.numElements)
+    insertList.insert(insertIterator, -7);
+    assert(insertList.numElements);
     //resetting insertIterator
-    //delete insertIterator.ptr;
-    //insertIterator.ptr = NULL;
+    delete insertIterator.ptr;
+    insertIterator.ptr = NULL;
     unit_testing_delete_call_counter = 0;
     
-    //testing inserting into an empty list with valid iterator (simulating end iterator)
+    // //testing inserting into an empty list with valid iterator (simulating end iterator)
     insertList.insert(insertIterator, 4);
     assert(insertList.pHead != NULL);
     assert(insertList.pHead->data == 4);
